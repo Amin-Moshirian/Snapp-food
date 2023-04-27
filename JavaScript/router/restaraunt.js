@@ -1,0 +1,25 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const multer_1 = __importDefault(require("../modules/multer"));
+const fileValidation_1 = require("../Validation/fileValidation");
+const checkLogin_1 = __importDefault(require("../Validation/checkLogin"));
+const restaurantController_1 = require("../controller/restaurantController");
+const resRouter = express_1.default.Router();
+resRouter.post("/signup", restaurantController_1.restaurantSignUp);
+resRouter.post("/login", restaurantController_1.resLogin);
+resRouter.put("/change-profile", checkLogin_1.default, restaurantController_1.changeResProfile);
+resRouter.put("/logout", checkLogin_1.default, restaurantController_1.resLogOut);
+resRouter.put("/generate-password", checkLogin_1.default, restaurantController_1.generateResPassword);
+resRouter.put("/change-password", checkLogin_1.default, restaurantController_1.changeResPassword);
+resRouter.delete("/delete-account", checkLogin_1.default, restaurantController_1.deleteResAccout);
+resRouter.get("/get-profile", checkLogin_1.default, restaurantController_1.getResProfile);
+resRouter.post("/upload-avatar", checkLogin_1.default, multer_1.default.single('avatar'), fileValidation_1.imageValidaton, restaurantController_1.saveResImage);
+resRouter.get("/get-otp", restaurantController_1.getResOtp);
+resRouter.post("/check-otp", restaurantController_1.checkResOtp);
+resRouter.get("/:id", checkLogin_1.default, restaurantController_1.getOneRest);
+resRouter.get("/", checkLogin_1.default, restaurantController_1.getRests);
+exports.default = resRouter;
